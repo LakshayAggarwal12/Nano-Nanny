@@ -33,7 +33,7 @@ const Login = () => {
 
         <div className="auth-logo">
           <div className="logo-icon">🫀</div>
-          <span className="logo-text">Medi<span>Track</span></span>
+          <span className="logo-text">Nano<span>Nanny</span></span>
         </div>
 
         <h2 className="auth-title">Welcome back</h2>
