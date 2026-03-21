@@ -2,10 +2,10 @@ const nodemailer = require("nodemailer");
 
 exports.sendDoctorEmail = async (symptoms, description, riskLevel) => {
   try {
-    console.log("📧 Attempting to send email...");
-    console.log("EMAIL_USER:", process.env.EMAIL_USER);
-    console.log("DOCTOR_EMAIL:", process.env.DOCTOR_EMAIL);
-    console.log("EMAIL_PASS set:", !!process.env.EMAIL_PASS);
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.DOCTOR_EMAIL) {
+      console.log("⚠️ Email env vars not set — skipping email");
+      return;
+    }
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -15,9 +15,6 @@ exports.sendDoctorEmail = async (symptoms, description, riskLevel) => {
       }
     });
 
-    // Verify connection first
-    await transporter.verify();
-    console.log("✅ SMTP connection verified");
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -25,20 +22,15 @@ exports.sendDoctorEmail = async (symptoms, description, riskLevel) => {
       subject: "Patient Recovery Alert",
       text: `
 Patient reported symptoms.
-
 Symptoms: ${symptoms.join(", ")}
-
-Description:
-${description}
-
+Description: ${description}
 Risk Level: ${riskLevel}
-
 Please review patient condition.
 `
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Email sent successfully:", info.messageId);
+    console.log("✅ Email sent:", info.messageId);
 
   } catch (error) {
     console.error("❌ Email error:", error.message);
