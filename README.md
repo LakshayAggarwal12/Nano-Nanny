@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏥 NanoNanny — Exora
+# 🏥 NanoNanny
 
 ### AI-Powered Post-Surgical Recovery Monitoring System
 
